@@ -1,0 +1,28 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker-files/app/Dockerfile
+    image: oluty/eventapp
+    container_name: eventapp
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+
+  mongo:
+    build:
+      context: .
+      dockerfile: docker-files/db/Dockerfile
+    image: oluty/eventdb
+    container_name: eventdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - eventdbdata:/data/db
+
+volumes:
+  eventdbdata:
